@@ -1,0 +1,6 @@
+/* Test code preview highlighting */
+.test {
+  color: var(--ds-core-color-gray-200);
+  background: var(--ds-core-color-gray-200);
+  border: 1px solid var(--ds-core-color-gray-200);
+}

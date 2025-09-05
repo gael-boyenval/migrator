@@ -1,0 +1,8 @@
+/* Test specific pattern matching issue */
+.test {
+  color: var(--my-replacement-50);
+  background: var(--my-test-pattern-500);
+  border: 1px solid var(--my-replacement-50);
+  /* This should NOT match the 500 pattern */
+  padding: var(--my-test-pattern-5000);
+}
