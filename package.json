@@ -1,6 +1,6 @@
 {
   "name": "@gael-boyenval/migrator",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "A powerful, extensible TypeScript CLI tool for automated code migrations with support for interactive user choices, batch processing, and plugin-based architecture.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
