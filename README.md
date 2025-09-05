@@ -32,35 +32,35 @@ npm install --save-dev @gael-boyenval/migrator
 
 ```bash
 # Create a basic configuration file
-@gael-boyenval/migrator init
+migrator init
 
 # Or specify a custom config file
-@gael-boyenval/migrator init --config my-migration.config.js
+migrator init --config my-migration.config.js
 ```
 
 ### 2. Run Migrations
 
 ```bash
 # Run migrations with default config
-@gael-boyenval/migrator migrate
+migrator migrate
 
 # Run with custom config
-@gael-boyenval/migrator migrate --config my-migration.config.js
+migrator migrate --config my-migration.config.js
 
 # Preview changes without applying them
-@gael-boyenval/migrator migrate --dry-run
+migrator migrate --dry-run
 
 # Skip interactive prompts (use defaults)
-@gael-boyenval/migrator migrate --no-interactive
+migrator migrate --no-interactive
 
 # Process files in batches
-@gael-boyenval/migrator migrate --batch 50-1  # First 50 files
-@gael-boyenval/migrator migrate --batch 50-2  # Files 51-100
+migrator migrate --batch 50-1  # First 50 files
+migrator migrate --batch 50-2  # Files 51-100
 ```
 
 ## 📋 Commands
 
-### `@gael-boyenval/migrator init`
+### `migrator init`
 
 Initialize a new migration configuration file.
 
@@ -71,11 +71,11 @@ Initialize a new migration configuration file.
 **Examples:**
 
 ```bash
-@gael-boyenval/migrator init
-@gael-boyenval/migrator init --config custom.config.js
+migrator init
+migrator init --config custom.config.js
 ```
 
-### `@gael-boyenval/migrator migrate`
+### `migrator migrate`
 
 Run migrations from configuration file.
 
@@ -91,20 +91,20 @@ Run migrations from configuration file.
 
 ```bash
 # Basic migration
-@gael-boyenval/migrator migrate
+migrator migrate
 
 # Verbose output with dry run
-@gael-boyenval/migrator migrate --verbose --dry-run
+migrator migrate --verbose --dry-run
 
 # Non-interactive mode
-@gael-boyenval/migrator migrate --no-interactive
+migrator migrate --no-interactive
 
 # Batch processing
-@gael-boyenval/migrator migrate --batch 100-1  # First 100 files
-@gael-boyenval/migrator migrate --batch 100-2  # Files 101-200
+migrator migrate --batch 100-1  # First 100 files
+migrator migrate --batch 100-2  # Files 101-200
 ```
 
-### `@gael-boyenval/migrator help`
+### `migrator help`
 
 Show help information and available commands.
 
