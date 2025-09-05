@@ -1,0 +1,5 @@
+/* Test file 3 for progress indicator */
+.footer {
+  color: var(--ds-semantic-color-disabled-border-medium);
+  padding: 10px;
+}

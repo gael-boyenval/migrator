@@ -1,0 +1,5 @@
+/* Test file 1 for progress indicator */
+.header {
+  color: var(--ds-core-color-gray-200);
+  background: var(--ds-core-color-gray-200);
+}

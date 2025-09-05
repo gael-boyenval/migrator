@@ -1,0 +1,8 @@
+/* Test precise matching to ensure --ds-stuff-5 doesn't match --ds-stuff-50000 */
+.test {
+  color: var(--ds-replacement-5);
+  background: var(--ds-stuff-50000);
+  border: 1px solid var(--ds-replacement-5);
+  /* This should match and be replaced */
+  padding: var(--ds-replacement-5);
+}

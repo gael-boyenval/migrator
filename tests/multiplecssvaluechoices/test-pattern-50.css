@@ -1,0 +1,6 @@
+/* Test that --my-test-pattern-50 doesn't match --my-test-pattern-500 */
+.test {
+  color: var(--my-replacement-50);
+  background: var(--my-test-pattern-500);
+  border: 1px solid var(--my-replacement-50);
+}

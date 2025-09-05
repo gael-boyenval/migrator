@@ -1,0 +1,5 @@
+/* Test file 2 for progress indicator */
+.content {
+  color: var(--ds-semantic-color-disabled-border-medium);
+  border: 1px solid var(--ds-semantic-color-disabled-border-medium);
+}

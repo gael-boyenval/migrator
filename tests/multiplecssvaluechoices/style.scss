@@ -1,0 +1,141 @@
+.ds-select {
+    cursor: pointer;
+    position: relative;
+    width: var(--ds-select-width, 240px);
+    background: var(--ds-color-bg-neutral-default);
+  
+    &.ds-select-disabled {
+      background: var(--ds-color-bg-neutral-disabled);
+      opacity: 0.38;
+      cursor: default;
+    }
+  
+    &.ds-opened-select {
+      .ds-select-header {
+        border-color: var(--ds-color-bg-primary-active);
+      }
+    }
+  
+    .ds-select-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: var(--ds-core-spacing-3xl);
+      padding: 0 var(--ds-core-spacing-m);
+      border-radius: var(--ds-core-radius-radius-light);
+      border: 1px solid var(--ds-color-border-neutral-default);
+      box-sizing: border-box;
+    }
+  
+    .ds-select-label {
+      color: var(--ds-color-text-secondary);
+      font-size: var(--ds-core-typography-font-size-xs);
+      font-weight: var(--ds-core-typography-font-weight-medium);
+      line-height: var(--ds-core-typography-line-height-m);
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+  
+      &.ds-select-label-option {
+        color: var(--ds-color-text-primary);
+      }
+    }
+  
+    .ds-select-options {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: calc(var(--ds-core-spacing-3xl) + 4px);
+      width: var(--ds-select-width, 240px);
+      border-radius: var(--ds-core-radius-radius-light);
+      background: var(--ds-color-bg-layout-main);
+      box-shadow: 0px 2px 8px rgba(115, 127, 143, 0.25); // TODO: there is no token in citeo.css ($ds-core-shadow-m)
+      z-index: 1;
+  
+      &.ds-select-options-shown {
+        display: block;
+      }
+  
+      .ds-select-search {
+        border-bottom: 1px solid var(--ds-semantic-color-disabled-border-medium);
+        padding: var(--ds-core-spacing-s);
+
+        input {
+          color: var(--ds-color-text-secondary);
+          font-size: var(--ds-core-typography-font-size-2xs);
+          font-weight: var(--ds-core-typography-font-weight-medium);
+          line-height: var(--ds-core-typography-line-height-s);
+          border: 0;
+          box-shadow: 0;
+
+          &:focus,
+          &:active {
+            border: 0;
+            outline-style: none;
+          }
+        }
+      }
+
+      ul {
+        padding: 0;
+        margin: 0;
+        max-height: 220px;
+        overflow-y: auto;
+
+        &.ds-select-select-all-list {
+          border-bottom: 1px solid var(--ds-semantic-color-disabled-border-medium);
+        }
+
+        li {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          gap: var(--ds-core-spacing-xs);
+          list-style: none;
+          padding: var(--ds-core-spacing-xs) var(--ds-core-spacing-m);
+          color: var(--ds-color-text-primary);
+          min-height: 40px;
+          max-height: 64px;
+          box-sizing: border-box;
+
+          &.ds-select-single {
+            min-height: 36px;
+          }
+
+          &:hover {
+            background: var(--ds-color-bg-layout-subtle);
+          }
+
+          &.ds-selected-option {
+            color: var(--ds-color-bg-primary-active);
+          }
+
+          span {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+        }
+      }
+
+      .ds-select-no-data {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--ds-core-spacing-xs);
+        border-top: 1px solid var(--ds-color-bg-primary-active);
+        padding: var(--ds-core-spacing-xl) var(--ds-core-spacing-m);
+
+        .ds-select-no-data-label {
+          color: var(--ds-color-text-placeholder);
+          text-align: center;
+          font-size: var(--ds-core-typography-font-size-s);
+          font-weight: var(--ds-core-typography-font-weight-medium);
+          line-height: var(--ds-core-typography-line-height-m);
+        }
+      }
+    }
+  }
