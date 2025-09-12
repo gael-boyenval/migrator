@@ -60,7 +60,7 @@ echo "📤 Publishing to npm..."
 npm publish
 
 # Get the published version
-published_version=$(npm view @gael-boyenval/migrator version)
+published_version=$(node -p "require('./package.json').version")
 echo "✅ Successfully published @gael-boyenval/migrator@$published_version"
 
 # Create and push git tag
