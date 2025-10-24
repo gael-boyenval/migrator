@@ -1,0 +1,11 @@
+/* Test CSS file with ONLY properties that should NOT match */
+.example {
+  /* These should NOT match 'background' property */
+  background-color: var(--ds-core-color-background);
+  border-color: var(--ds-core-color-border);
+  
+  /* These should NOT match 'border' property */
+  border-color: var(--ds-core-color-border);
+  border-width: 1px;
+  border-style: solid;
+}

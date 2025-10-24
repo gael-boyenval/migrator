@@ -7,6 +7,9 @@ export interface CSSProperty {
   endIndex: number;
   line: number;
   column: number;
+  isMultiValue?: boolean; // true if this is a split value from a multi-value property
+  originalValue?: string; // the original multi-value string before splitting
+  valueIndex?: number; // the index of this value in the original multi-value string
 }
 
 export interface CSSRule {
@@ -108,14 +111,35 @@ const extractAllProperties = (content: string): CSSProperty[] => {
           ? startIndex + 1
           : startIndex - lastNewlineIndex;
 
-      properties.push({
-        property,
-        value,
-        startIndex,
-        endIndex,
-        line: newlines + 1,
-        column,
-      });
+      // Check if this is a multi-value CSS property
+      if (isMultiValueCSSProperty(property, value)) {
+        // Split the multi-value property into individual values
+        const individualValues = splitMultiValueCSSProperty(value);
+
+        individualValues.forEach((individualValue, index) => {
+          properties.push({
+            property,
+            value: individualValue,
+            startIndex: startIndex + index * 10, // Offset each value slightly
+            endIndex: startIndex + index * 10 + individualValue.length,
+            line: newlines + 1,
+            column: column + index * 10,
+            isMultiValue: true,
+            originalValue: value,
+            valueIndex: index,
+          });
+        });
+      } else {
+        // Single value property
+        properties.push({
+          property,
+          value,
+          startIndex,
+          endIndex,
+          line: newlines + 1,
+          column,
+        });
+      }
     }
   }
 
@@ -231,6 +255,52 @@ export const getAllProperties = (content: string): CSSProperty[] => {
   }
 
   return allProperties;
+};
+
+// Check if a CSS property value is multi-value (contains spaces and looks like CSS values)
+const isMultiValueCSSProperty = (property: string, value: string): boolean => {
+  // Only split properties that commonly have multiple values
+  const multiValueProperties = [
+    "margin",
+    "padding",
+    "border",
+    "borderWidth",
+    "borderStyle",
+    "borderColor",
+    "borderRadius",
+    "boxShadow",
+    "textShadow",
+    "background",
+    "backgroundPosition",
+    "backgroundSize",
+    "transform",
+    "transition",
+    "animation",
+  ];
+
+  const normalizedProperty = property.toLowerCase();
+  const isMultiValueProperty = multiValueProperties.some(
+    (prop) => normalizedProperty === prop.toLowerCase()
+  );
+
+  if (!isMultiValueProperty) return false;
+
+  // Check if the value contains spaces and looks like CSS values
+  if (!value.includes(" ")) return false;
+
+  // Split by spaces and check if we have multiple parts
+  const parts = value.trim().split(/\s+/);
+
+  // Just check if we have multiple parts that look like CSS values (very simple check)
+  return parts.length > 1;
+};
+
+// Split a multi-value CSS property into individual values
+const splitMultiValueCSSProperty = (value: string): string[] => {
+  return value
+    .trim()
+    .split(/\s+/)
+    .map((part) => part.trim());
 };
 
 // Check if a value is a CSS custom property

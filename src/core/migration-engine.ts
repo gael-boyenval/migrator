@@ -8,6 +8,11 @@ import {
   replacePropertyValue,
 } from "../utils/css-parser";
 import {
+  parseCSSInJS,
+  findCSSInJSProperties,
+  replaceCSSInJSPropertyValue,
+} from "../utils/css-in-js-parser";
+import {
   askUserForChoice,
   askUserForConfirmation,
   askUserForInput,
@@ -38,6 +43,9 @@ export class MigrationEngine {
       parseCSS,
       findProperties,
       replacePropertyValue,
+      parseCSSInJS,
+      findCSSInJSProperties,
+      replaceCSSInJSPropertyValue,
       askUserForChoice,
       askUserForConfirmation,
       askUserForInput,

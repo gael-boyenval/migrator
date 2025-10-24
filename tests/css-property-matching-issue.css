@@ -1,0 +1,26 @@
+/* Test CSS file to detect property matching issues */
+.example {
+  /* These should NOT match 'color' property */
+  background-color: var(--ds-core-color-background);
+  border-color: var(--ds-core-color-border);
+  text-color: var(--ds-core-color-text);
+  fill-color: var(--ds-core-color-fill);
+  
+  /* This should match 'color' property */
+  color: var(--ds-core-color-text);
+  
+  /* These should NOT match 'background' property */
+  background-color: var(--ds-core-color-background);
+  border-color: var(--ds-core-color-border);
+  
+  /* This should match 'background' property */
+  background: var(--ds-core-color-background);
+  
+  /* These should NOT match 'border' property */
+  border-color: var(--ds-core-color-border);
+  border-width: 1px;
+  border-style: solid;
+  
+  /* This should match 'border' property */
+  border: 1px solid var(--ds-core-color-border);
+}

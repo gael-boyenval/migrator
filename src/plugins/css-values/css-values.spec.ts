@@ -145,6 +145,205 @@ describe("CSSValuesPlugin", () => {
     });
   });
 
+  describe("CSS-in-JS functionality", () => {
+    it("should replace simple CSS-in-JS values", async () => {
+      const cssInJS = `
+        const myElement = {
+          marginTop: 'var(--ds-core-color-grey-50)',
+          color: 'var(--ds-core-spacing-xs)',
+          fontSize: 16
+        };
+      `;
+
+      const config: CSSValuesConfig = {
+        mappings: {
+          "--ds-core-color-grey-50": "--ds-semantic-color-grey-50",
+          "--ds-core-spacing-xs": "--ds-semantic-spacing-xs",
+        },
+      };
+
+      // Use real CSS-in-JS parsing
+      mockMigratorUtils.parseCSSInJS = vi.fn().mockImplementation((content) => {
+        const { parseCSSInJS } = require("../../utils/css-in-js-parser");
+        return parseCSSInJS(content);
+      });
+
+      const context = {
+        fileData: cssInJS,
+        filePath: "test.js",
+        config,
+        migratorUtils: mockMigratorUtils,
+        isInteractive: false,
+      };
+
+      const result = await plugin.process(context);
+
+      expect(result.changes).toHaveLength(2);
+      expect(result.changes[0].original).toBe("--ds-core-color-grey-50");
+      expect(result.changes[0].replacement).toBe("--ds-semantic-color-grey-50");
+      expect(result.changes[1].original).toBe("--ds-core-spacing-xs");
+      expect(result.changes[1].replacement).toBe("--ds-semantic-spacing-xs");
+    });
+
+    it("should handle conditional replacements in CSS-in-JS", async () => {
+      const cssInJS = `
+        const styles = {
+          color: 'var(--ds-core-color-grey-80)',
+          backgroundColor: 'var(--ds-core-color-grey-80)',
+          borderColor: 'var(--ds-core-color-grey-80)'
+        };
+      `;
+
+      const config: CSSValuesConfig = {
+        mappings: {
+          "--ds-core-color-grey-80": {
+            options: [
+              {
+                ifProp: ["color"],
+                replace: "--ds-semantic-content-color-grey-80",
+              },
+              {
+                ifProp: ["backgroundColor"],
+                replace: "--ds-semantic-surface-color-grey-80",
+              },
+              {
+                ifProp: ["borderColor"],
+                replace: "--ds-semantic-border-color-grey-80",
+              },
+            ],
+          },
+        },
+      };
+
+      // Use real CSS-in-JS parsing
+      mockMigratorUtils.parseCSSInJS = vi.fn().mockImplementation((content) => {
+        const { parseCSSInJS } = require("../../utils/css-in-js-parser");
+        return parseCSSInJS(content);
+      });
+
+      const context = {
+        fileData: cssInJS,
+        filePath: "test.js",
+        config,
+        migratorUtils: mockMigratorUtils,
+        isInteractive: false,
+      };
+
+      const result = await plugin.process(context);
+
+      expect(result.changes).toHaveLength(3);
+      expect(result.changes[0].replacement).toBe(
+        "--ds-semantic-content-color-grey-80"
+      );
+      expect(result.changes[1].replacement).toBe(
+        "--ds-semantic-surface-color-grey-80"
+      );
+      expect(result.changes[2].replacement).toBe(
+        "--ds-semantic-border-color-grey-80"
+      );
+    });
+
+    it("should handle both camelCase and kebab-case property names", async () => {
+      const cssInJS = `
+        const styles = {
+          marginTop: 'var(--ds-core-color-grey-50)',
+          backgroundColor: 'var(--ds-core-color-grey-50)',
+          'border-color': 'var(--ds-core-color-grey-50)'
+        };
+      `;
+
+      const config: CSSValuesConfig = {
+        mappings: {
+          "--ds-core-color-grey-50": {
+            options: [
+              {
+                ifProp: ["marginTop"],
+                replace: "--ds-semantic-spacing-grey-50",
+              },
+              {
+                ifProp: ["backgroundColor"],
+                replace: "--ds-semantic-surface-grey-50",
+              },
+              {
+                ifProp: ["borderColor"],
+                replace: "--ds-semantic-border-grey-50",
+              },
+            ],
+          },
+        },
+      };
+
+      // Use real CSS-in-JS parsing
+      mockMigratorUtils.parseCSSInJS = vi.fn().mockImplementation((content) => {
+        const { parseCSSInJS } = require("../../utils/css-in-js-parser");
+        return parseCSSInJS(content);
+      });
+
+      const context = {
+        fileData: cssInJS,
+        filePath: "test.js",
+        config,
+        migratorUtils: mockMigratorUtils,
+        isInteractive: false,
+      };
+
+      const result = await plugin.process(context);
+
+      expect(result.changes).toHaveLength(3);
+      expect(result.changes[0].replacement).toBe(
+        "--ds-semantic-spacing-grey-50"
+      );
+      expect(result.changes[1].replacement).toBe(
+        "--ds-semantic-surface-grey-50"
+      );
+      expect(result.changes[2].replacement).toBe(
+        "--ds-semantic-border-grey-50"
+      );
+    });
+
+    it("should handle number values in CSS-in-JS", async () => {
+      const cssInJS = `
+        const styles = {
+          fontSize: 16,
+          fontWeight: 600,
+          opacity: 0.5
+        };
+      `;
+
+      const config: CSSValuesConfig = {
+        mappings: {
+          "16": "18",
+          "600": "700",
+          "0.5": "0.8",
+        },
+      };
+
+      // Use real CSS-in-JS parsing
+      mockMigratorUtils.parseCSSInJS = vi.fn().mockImplementation((content) => {
+        const { parseCSSInJS } = require("../../utils/css-in-js-parser");
+        return parseCSSInJS(content);
+      });
+
+      const context = {
+        fileData: cssInJS,
+        filePath: "test.js",
+        config,
+        migratorUtils: mockMigratorUtils,
+        isInteractive: false,
+      };
+
+      const result = await plugin.process(context);
+
+      expect(result.changes).toHaveLength(3);
+      expect(result.changes[0].original).toBe("16");
+      expect(result.changes[0].replacement).toBe("18");
+      expect(result.changes[1].original).toBe("600");
+      expect(result.changes[1].replacement).toBe("700");
+      expect(result.changes[2].original).toBe("0.5");
+      expect(result.changes[2].replacement).toBe("0.8");
+    });
+  });
+
   describe("multiple choice replacements", () => {
     it("should handle multiple choice replacements in non-interactive mode", async () => {
       const css = `

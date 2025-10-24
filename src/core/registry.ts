@@ -1,6 +1,7 @@
 import { Plugin } from "./plugin-interface";
 import { SimpleReplacePlugin } from "../plugins/simple-replace/simple-replace";
 import { CSSValuesPlugin } from "../plugins/css-values/css-values";
+import { StyleValuesPlugin } from "../plugins/style-values/style-values";
 
 export class PluginRegistry {
   private plugins = new Map<string, Plugin>();
@@ -15,6 +16,9 @@ export class PluginRegistry {
 
     const cssValues = new CSSValuesPlugin();
     this.plugins.set(cssValues.name, cssValues);
+
+    const styleValues = new StyleValuesPlugin();
+    this.plugins.set(styleValues.name, styleValues);
   };
 
   register = (plugin: Plugin): void => {
